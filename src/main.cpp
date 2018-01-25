@@ -94,19 +94,32 @@ int main()
     	  float y_gt;
     	  float vx_gt;
     	  float vy_gt;
+        float yaw_gt;
+        float yawrate_gt;
     	  iss >> x_gt;
     	  iss >> y_gt;
     	  iss >> vx_gt;
     	  iss >> vy_gt;
+        iss >> yaw_gt;
+        iss >> yawrate_gt;
     	  VectorXd gt_values(4);
     	  gt_values(0) = x_gt;
     	  gt_values(1) = y_gt; 
     	  gt_values(2) = vx_gt;
     	  gt_values(3) = vy_gt;
     	  ground_truth.push_back(gt_values);
+
+        VectorXd all_gt_values(7);
+        all_gt_values(0) = x_gt;
+        all_gt_values(1) = y_gt; 
+        all_gt_values(2) = sqrt((vx_gt * vx_gt) + (vy_gt * vy_gt)); 
+        all_gt_values(3) = yaw_gt;
+        all_gt_values(4) = yawrate_gt;
+        all_gt_values(5) = vx_gt;
+        all_gt_values(6) = vy_gt;
           
           //Call ProcessMeasurment(meas_package) for Kalman filter
-    	  ukf.ProcessMeasurement(meas_package);    	  
+    	  ukf.ProcessMeasurement(meas_package, all_gt_values);    	  
 
     	  //Push the current estimated x,y positon from the Kalman filter's state vector
 
